@@ -28,12 +28,14 @@ end
 def play(array)
   puts "Please enter a song name or number:"
   selection = gets.chomp
-  array.each_with_index do |song, index|
-    if selection == song || selection == (index + 1).to_s
-      puts "Playing #{song}"
-    else
-      puts "Invalid input, please try again"
+  if array.any? {|element| element == selection} || (selection.to_i > 1 && selection.to_i < array.length)
+    array.each_with_index do |song, index|
+      if selection == song || selection == (index + 1).to_s
+        puts "Playing #{song}"
+      end
     end
+  else
+    puts "Invalid input, please try again"
   end
 end
 
@@ -43,18 +45,17 @@ end
 
 def run(array)
   help
-  puts "Please enter a command:"
   jukebox_on = true
-
   while jukebox_on == true do
-  usr_command = gets.chomp
+    puts "Please enter a command:"
+    usr_command = gets.chomp
     case usr_command
     when "help"
       help
     when "list"
-      list
+      list(array)
     when "play"
-      play(songs)
+      play(array)
     when "exit"
       exit_jukebox
       jukebox_on = false
